@@ -243,6 +243,7 @@ const MainApp = () => {
           {activeView === 'music' && <MusicPlatform />}
           {activeView === 'code' && <CodeShowcase />}
           {activeView === 'demo' && <ParentChildDemo />}
+          <Analytics />
         </div>
         </QElementComponent>
       </QElementComponent>
