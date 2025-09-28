@@ -1,6 +1,10 @@
 import React, { useEffect, useRef, ReactNode } from 'react';
 import { useQElement, QElementStyle } from './QElementProvider';
 
+// Export types and hooks for external use
+export type { QElementStyle };
+export { useQElement };
+
 interface QElementComponentProps {
   elementId: string;
   as?: keyof JSX.IntrinsicElements;

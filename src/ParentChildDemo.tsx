@@ -7,8 +7,8 @@
 // =============================================================================
 
 import React, { useState } from 'react';
-import { QElementProvider } from '../qelements/QElementProvider';
-import { QElementComponent } from '../qelements/QElementComponent';
+import { QElementProvider } from './qelements/QElementProvider';
+import { QElementComponent } from './qelements/QElementComponent';
 
 const ParentChildDemo = () => {
   const [parentColor, setParentColor] = useState('#dc2626');
