@@ -7,7 +7,8 @@
 // =============================================================================
 
 import React, { useEffect } from 'react';
-import { QElementProvider, useQElement } from 'qelements';
+import { QElementProvider } from '../qelements/QElementProvider';
+import { useQElement } from '../qelements/QElementComponent';
 import { ParentStyles } from './ParentStyles';
 interface ParentStylesProviderProps {
   children: React.ReactNode;

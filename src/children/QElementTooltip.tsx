@@ -7,7 +7,7 @@
 // =============================================================================
 
 import React, { useState } from 'react';
-import { QElementComponent } from 'qelements';
+import { QElementComponent } from '../qelements/QElementComponent';
 
 interface QElementTooltipProps {
   children: React.ReactNode;

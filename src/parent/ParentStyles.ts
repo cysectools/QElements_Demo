@@ -6,7 +6,7 @@
 // Change values here to affect ALL child components globally.
 // =============================================================================
 
-import { QElementStyle } from 'qelements';
+import { QElementStyle } from '../qelements/QElementComponent';
 
 export const ParentStyles = {
   // =============================================================================
