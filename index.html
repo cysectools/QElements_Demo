@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QElements Demo - Parent-Child UI Management</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .demo-section {
+            background: white;
+            margin-bottom: 2rem;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+
+        .demo-section h3 {
+            color: #333;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .demo-section p {
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+            background: #667eea;
+            color: white;
+        }
+
+        .btn:hover {
+            background: #5a6fd8;
+            transform: translateY(-1px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn.theme-blue { background: #2196f3; }
+        .btn.theme-purple { background: #9c27b0; }
+        .btn.theme-green { background: #4caf50; }
+        .btn.theme-dark { background: #2d3748; }
+        .btn.theme-colorful { background: #ff6b6b; }
+
+        .qelement-container {
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 10px 0;
+            transition: all 0.3s ease;
+        }
+
+        .qelement-child {
+            border: 1px dashed #999;
+            border-radius: 4px;
+            padding: 15px;
+            margin: 10px 0;
+            background: rgba(255,255,255,0.5);
+            transition: all 0.3s ease;
+        }
+
+        .qelement-child.overridden {
+            border-style: solid;
+            border-width: 2px;
+        }
+
+        .style-info {
+            font-size: 12px;
+            background: #f5f5f5;
+            padding: 8px;
+            border-radius: 4px;
+            margin-top: 10px;
+            font-family: monospace;
+        }
+
+        .layout-demo {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .layout-demo.horizontal {
+            flex-direction: row;
+            gap: 15px;
+        }
+
+        .layout-demo.grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            border: 1px solid #dee2e6;
+        }
+
+        .footer {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        .footer h3 {
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .footer code {
+            background: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🎯 QElements Demo</h1>
+            <p>A TypeScript/TSX package for parent-child UI element management with cascading styles. 
+               Explore the interactive demos below to see QElements concepts in action!</p>
+        </header>
+
+        <main>
+            <!-- Parent-Child Relationships Demo -->
+            <div class="demo-section">
+                <h3>🎯 Parent-Child Relationships Demo</h3>
+                <p>This parent controls the base styles for all children with the same elementId.</p>
+                
+                <div class="controls">
+                    <button class="btn theme-blue" onclick="updateParentTheme('blue')">Blue Theme</button>
+                    <button class="btn theme-purple" onclick="updateParentTheme('purple')">Purple Theme</button>
+                    <button class="btn theme-green" onclick="updateParentTheme('green')">Green Theme</button>
+                    <button class="btn" onclick="updateParentPadding()">More Padding</button>
+                    <button class="btn" onclick="updateParentBorder()">Red Border</button>
+                </div>
+
+                <div id="parent-container" class="qelement-container">
+                    <h4>Parent Container</h4>
+                    <p>I'm the parent! My styles affect all my children.</p>
+                    
+                    <div class="qelement-child">
+                        <h5>Child Component 1</h5>
+                        <p>I inherit from my parent but can override specific properties!</p>
+                        <div class="controls">
+                            <button class="btn" onclick="overrideChild(1, 'yellow')">Yellow BG</button>
+                            <button class="btn" onclick="overrideChild(1, 'green')">Green BG</button>
+                            <button class="btn" onclick="resetChild(1)">Reset to Parent</button>
+                        </div>
+                    </div>
+                    
+                    <div class="qelement-child">
+                        <h5>Child Component 2</h5>
+                        <p>Same inheritance, different overrides!</p>
+                        <div class="controls">
+                            <button class="btn" onclick="overrideChild(2, 'blue')">Blue BG</button>
+                            <button class="btn" onclick="overrideChild(2, 'purple')">Purple BG</button>
+                            <button class="btn" onclick="resetChild(2)">Reset to Parent</button>
+                        </div>
+                    </div>
+                    
+                    <div class="qelement-child">
+                        <h5>Child Component 3</h5>
+                        <p>Independent overrides while sharing the base!</p>
+                        <div class="controls">
+                            <button class="btn" onclick="overrideChild(3, 'orange')">Orange BG</button>
+                            <button class="btn" onclick="overrideChild(3, 'pink')">Pink BG</button>
+                            <button class="btn" onclick="resetChild(3)">Reset to Parent</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Style Inheritance Demo -->
+            <div class="demo-section">
+                <h3>🎨 Style Inheritance Demo</h3>
+                <p>All children automatically inherit parent styles. Change the theme to see it in action!</p>
+                
+                <div class="controls">
+                    <button class="btn" onclick="setInheritanceTheme('default')">Default Theme</button>
+                    <button class="btn theme-dark" onclick="setInheritanceTheme('dark')">Dark Theme</button>
+                    <button class="btn theme-colorful" onclick="setInheritanceTheme('colorful')">Colorful Theme</button>
+                </div>
+
+                <div id="inheritance-container" class="qelement-container">
+                    <h4>Parent Container (Theme: <span id="theme-name">default</span>)</h4>
+                    <p>I set the base theme for all my children.</p>
+                    
+                    <div class="qelement-child">
+                        <h5>Child 1 - Inherits everything</h5>
+                        <p>I automatically get the parent's background, color, and border!</p>
+                    </div>
+                    
+                    <div class="qelement-child">
+                        <h5>Child 2 - Also inherits</h5>
+                        <p>Same inheritance, different content!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Selective Overrides Demo -->
+            <div class="demo-section">
+                <h3>🔧 Selective Overrides Demo</h3>
+                <p>Each child can override specific properties while keeping others from the parent.</p>
+                
+                <div class="controls">
+                    <button class="btn theme-blue" onclick="setBaseTheme('blue')">Blue Base</button>
+                    <button class="btn theme-purple" onclick="setBaseTheme('purple')">Purple Base</button>
+                    <button class="btn" onclick="setBasePadding()">More Padding</button>
+                    <button class="btn" onclick="setBaseRadius()">Rounded Corners</button>
+                </div>
+
+                <div id="override-container" class="qelement-container">
+                    <h4>Base Container</h4>
+                    <p>I provide the base styles that children inherit.</p>
+                    
+                    <div class="qelement-child">
+                        <h5>Child 1</h5>
+                        <p>I can override specific properties while keeping others from my parent.</p>
+                        <div class="controls">
+                            <button class="btn" onclick="applyOverride(1, 'yellow')">Apply Override</button>
+                            <button class="btn" onclick="resetOverride(1)">Reset to Parent</button>
+                        </div>
+                    </div>
+                    
+                    <div class="qelement-child">
+                        <h5>Child 2</h5>
+                        <p>Different overrides, same base inheritance!</p>
+                        <div class="controls">
+                            <button class="btn" onclick="applyOverride(2, 'green')">Apply Override</button>
+                            <button class="btn" onclick="resetOverride(2)">Reset to Parent</button>
+                        </div>
+                    </div>
+                    
+                    <div class="qelement-child">
+                        <h5>Child 3</h5>
+                        <p>Selective control in action!</p>
+                        <div class="controls">
+                            <button class="btn" onclick="applyOverride(3, 'orange')">Apply Override</button>
+                            <button class="btn" onclick="resetOverride(3)">Reset to Parent</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Advanced Layout Demo -->
+            <div class="demo-section">
+                <h3>🚀 Advanced Layout Demo</h3>
+                <p>Demonstrating complex layouts with QElements parent-child relationships.</p>
+                
+                <div class="controls">
+                    <button class="btn" onclick="setLayout('vertical')">Vertical Layout</button>
+                    <button class="btn" onclick="setLayout('horizontal')">Horizontal Layout</button>
+                    <button class="btn" onclick="setLayout('grid')">Grid Layout</button>
+                </div>
+
+                <div id="layout-container" class="qelement-container layout-demo">
+                    <h4>Layout Container (<span id="layout-name">vertical</span>)</h4>
+                    <p>I control the layout for all my children.</p>
+                    
+                    <div class="card">
+                        <h5>Card 1</h5>
+                        <p>I inherit the layout but have my own styling!</p>
+                    </div>
+                    
+                    <div class="card">
+                        <h5>Card 2</h5>
+                        <p>Same layout, different colors!</p>
+                    </div>
+                    
+                    <div class="card">
+                        <h5>Card 3</h5>
+                        <p>Layout inheritance in action!</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <h3>🎉 Ready to use QElements in your project?</h3>
+            <p>Install with: <code>npm install qelements</code></p>
+            <p>
+                <a href="https://github.com/cysectools/QElement" target="_blank" rel="noopener noreferrer">
+                    View on GitHub →
+                </a>
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // Parent-Child Demo Functions
+        function updateParentTheme(theme) {
+            const container = document.getElementById('parent-container');
+            const themes = {
+                blue: { backgroundColor: '#e3f2fd', borderColor: '#2196f3' },
+                purple: { backgroundColor: '#f3e5f5', borderColor: '#9c27b0' },
+                green: { backgroundColor: '#e8f5e8', borderColor: '#4caf50' }
+            };
+            
+            const style = themes[theme];
+            container.style.backgroundColor = style.backgroundColor;
+            container.style.borderColor = style.borderColor;
+        }
+
+        function updateParentPadding() {
+            const container = document.getElementById('parent-container');
+            container.style.padding = '30px';
+            container.style.borderRadius = '15px';
+        }
+
+        function updateParentBorder() {
+            const container = document.getElementById('parent-container');
+            container.style.border = '3px solid #ff6b6b';
+        }
+
+        function overrideChild(childNum, color) {
+            const children = document.querySelectorAll('#parent-container .qelement-child');
+            const child = children[childNum - 1];
+            const colors = {
+                yellow: '#ffeb3b',
+                green: '#4caf50',
+                blue: '#2196f3',
+                purple: '#9c27b0',
+                orange: '#ff9800',
+                pink: '#e91e63'
+            };
+            
+            child.style.backgroundColor = colors[color] || color;
+            child.classList.add('overridden');
+        }
+
+        function resetChild(childNum) {
+            const children = document.querySelectorAll('#parent-container .qelement-child');
+            const child = children[childNum - 1];
+            child.style.backgroundColor = '';
+            child.classList.remove('overridden');
+        }
+
+        // Inheritance Demo Functions
+        function setInheritanceTheme(theme) {
+            const container = document.getElementById('inheritance-container');
+            const themeName = document.getElementById('theme-name');
+            const themes = {
+                default: { backgroundColor: '#ffffff', color: '#333333', border: '1px solid #ddd' },
+                dark: { backgroundColor: '#2d3748', color: '#ffffff', border: '1px solid #4a5568' },
+                colorful: { backgroundColor: '#ff6b6b', color: '#ffffff', border: '2px solid #4ecdc4' }
+            };
+            
+            const style = themes[theme];
+            container.style.backgroundColor = style.backgroundColor;
+            container.style.color = style.color;
+            container.style.border = style.border;
+            themeName.textContent = theme;
+        }
+
+        // Override Demo Functions
+        function setBaseTheme(theme) {
+            const container = document.getElementById('override-container');
+            const themes = {
+                blue: { backgroundColor: '#e3f2fd', borderColor: '#2196f3' },
+                purple: { backgroundColor: '#f3e5f5', borderColor: '#9c27b0' }
+            };
+            
+            const style = themes[theme];
+            container.style.backgroundColor = style.backgroundColor;
+            container.style.borderColor = style.borderColor;
+        }
+
+        function setBasePadding() {
+            const container = document.getElementById('override-container');
+            container.style.padding = '30px';
+        }
+
+        function setBaseRadius() {
+            const container = document.getElementById('override-container');
+            container.style.borderRadius = '20px';
+        }
+
+        function applyOverride(childNum, color) {
+            const children = document.querySelectorAll('#override-container .qelement-child');
+            const child = children[childNum - 1];
+            const colors = {
+                yellow: '#ffeb3b',
+                green: '#4caf50',
+                orange: '#ff9800'
+            };
+            
+            child.style.backgroundColor = colors[color] || color;
+            child.classList.add('overridden');
+        }
+
+        function resetOverride(childNum) {
+            const children = document.querySelectorAll('#override-container .qelement-child');
+            const child = children[childNum - 1];
+            child.style.backgroundColor = '';
+            child.classList.remove('overridden');
+        }
+
+        // Layout Demo Functions
+        function setLayout(layout) {
+            const container = document.getElementById('layout-container');
+            const layoutName = document.getElementById('layout-name');
+            
+            container.className = 'qelement-container layout-demo';
+            
+            if (layout === 'horizontal') {
+                container.classList.add('horizontal');
+            } else if (layout === 'grid') {
+                container.classList.add('grid');
+            }
+            
+            layoutName.textContent = layout;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+Arguments: 
+  /usr/local/bin/node /usr/local/bin/yarn install
+
+PATH: 
+  /Users/jayson/.rbenv/shims:/Users/jayson/.rbenv/bin:/Users/jayson/.rbenv/shims:/Users/jayson/.local/share/solana/install/active_release/bin:/opt/local/bin:/opt/local/sbin:/Library/Frameworks/Python.framework/Versions/3.12/bin:/Library/Frameworks/Python.framework/Versions/3.11/bin:/Users/jayson/.local/share/solana/install/active_release/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:/usr/local/share/dotnet:~/.dotnet/tools:/Library/Apple/usr/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/Users/jayson/.rbenv/shims:/Users/jayson/.rbenv/bin:/Users/jayson/opt/anaconda3/bin:/Users/jayson/opt/anaconda3/condabin:/Users/jayson/.local/share/solana/install/active_release/bin:/opt/local/bin:/opt/local/sbin:/Library/Frameworks/Python.framework/Versions/3.12/bin:/Library/Frameworks/Python.framework/Versions/3.11/bin:/Users/jayson/.cargo/bin:/Users/jayson/development/flutter/bin:/Users/jayson/development/flutter/bin
+
+Yarn version: 
+  1.22.19
+
+Node version: 
+  22.12.0
+
+Platform: 
+  darwin x64
+
+Trace: 
+  Error: EACCES: permission denied, mkdir '/Users/jayson/Downloads/QElements_Demo/node_modules/@babel/core/node_modules/convert-source-map'
+
+npm manifest: 
+  {
+    "name": "qelements-sandbox",
+    "version": "1.0.0",
+    "description": "Interactive sandbox for QElements package with live preview",
+    "main": "src/index.tsx",
+    "scripts": {
+      "start": "ESLINT_NO_DEV_ERRORS=true react-scripts start",
+      "build": "react-scripts build",
+      "test": "react-scripts test",
+      "eject": "react-scripts eject",
+      "dev": "ESLINT_NO_DEV_ERRORS=true react-scripts start"
+    },
+    "dependencies": {
+      "qelements": "github:cysectools/QElement",
+      "react": "^18.2.0",
+      "react-dom": "^18.2.0",
+      "react-scripts": "5.0.1"
+    },
+    "devDependencies": {
+      "@types/react": "^18.2.0",
+      "@types/react-dom": "^18.2.0",
+      "typescript": "^4.9.5"
+    },
+    "browserslist": {
+      "production": [
+        ">0.2%",
+        "not dead",
+        "not op_mini all"
+      ],
+      "development": [
+        "last 1 chrome version",
+        "last 1 firefox version",
+        "last 1 safari version"
+      ]
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
