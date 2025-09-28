@@ -11,6 +11,7 @@
     "dev": "ESLINT_NO_DEV_ERRORS=true react-scripts start"
   },
   "dependencies": {
+    "@vercel/analytics": "^1.5.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1"

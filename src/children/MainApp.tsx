@@ -6,6 +6,7 @@
 // =============================================================================
 
 import React, { useState } from 'react';
+import { Analytics } from "@vercel/analytics/react"
 import { QElementProvider } from '../qelements/QElementProvider';
 import { QElementComponent } from '../qelements/QElementComponent';
 import MusicPlatform from './App';
